@@ -1,0 +1,14 @@
+[Unit]
+Description=Google Cloud Print CUPS Connector
+After=printer.target network.target multi-user.target
+
+[Service]
+Environment="GCP_CUPS_CONFIG=/etc/gcp-cups/gcp-cups-connector.config.json"
+ExecStart=/opt/gcp-cups/gcp-cups-connector --config-filename ${GCP_CUPS_CONFIG}
+ExecStartPre=/opt/gcp-cups/cleanup-socket.sh ${GCP_CUPS_CONFIG}
+Restart=on-abort
+User=gcp
+Group=gcp
+
+[Install]
+WantedBy=multi-user.target
